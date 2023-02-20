@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ChatBox.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ChatBox.Views.MainWindow"
+        Icon="/Assets/logo.ico"
+        Title="ChatBox">
+	<Window.KeyBindings>
+		<KeyBinding Gesture="Enter" Command="{Binding SendMessage}" />
+	</Window.KeyBindings>
+	<Design.DataContext>
+		<vm:MainWindowViewModel />
+	</Design.DataContext>
+
+
+	<Grid Margin="5" RowDefinitions="Auto, *,Auto">
+		<Menu>
+			<MenuItem Header="File">
+				<MenuItem Header="Export">
+					<MenuItem Header="Export Dialog"></MenuItem>
+				</MenuItem>
+				<Separator></Separator>
+				<MenuItem Header="Settings"></MenuItem>
+				<Separator></Separator>
+				<MenuItem Header="Exit">
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Header="Help">
+				<MenuItem Header="Report a bug"></MenuItem>
+				<MenuItem Header="About"></MenuItem>
+			</MenuItem>
+		</Menu>
+		<StackPanel Grid.Row="1" Spacing="5">
+			<WrapPanel>
+				<Label>Model:</Label>
+				<ComboBox x:Name="ModelsComboBox" SelectedIndex="0" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
+				          AutoScrollToSelectedItem="True">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding }" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<Label Margin="10, 0, 0,0">Token:</Label>
+				<TextBox HorizontalAlignment="Stretch" x:Name="TokenTextBox"
+				         Text="{Binding AccessToken}" />
+			</WrapPanel>
+			<ListBox Name="MessageListBox" Items="{Binding MessageModels}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+
+						<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
+							<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
+
+
+								<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
+
+								<TextBox Grid.Row="1" IsReadOnly="True" Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
+								         Text="{Binding Message}"
+								         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+
+							</Grid>
+						</Border>
+
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</StackPanel>
+
+		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="2">
+			<TextBox Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
+			<Button Grid.Column="1" Margin="5,0,0,0" Command="{Binding SendMessage}">></Button>
+		</Grid>
+	</Grid>
+
+</Window>
