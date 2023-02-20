@@ -11,12 +11,15 @@ public class MessageModel
 	/// <summary>
 	/// Сообщение
 	/// </summary>
-	public string Message { get; set; }
+	public string Message { get; private set; }
 
 	/// <summary>
 	/// Имя пользователя
 	/// </summary>
-	public string Username { get; set; }
+	public string Username { get; private set; }
+
+	public bool Bot { get; private set; }
+	public bool User { get;  private set;}
 
 	/// <summary>
 	/// Обновляет модель
@@ -27,4 +30,13 @@ public class MessageModel
 		Message = model.Message;
 		Username = model.Username;
 	}
+
+	public MessageModel(string message, string username, bool isBot)
+	{
+		Message = message;
+		Username = username;
+		Bot = isBot;
+		User = !isBot;
+	}
+
 }

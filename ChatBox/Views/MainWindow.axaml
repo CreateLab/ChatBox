@@ -16,7 +16,7 @@
 	</Design.DataContext>
 
 
-	<Grid Margin="5" RowDefinitions="Auto, *,Auto">
+	<Grid Margin="5" RowDefinitions="Auto,Auto, *,Auto">
 		<Menu>
 			<MenuItem Header="File">
 				<MenuItem Header="Export">
@@ -33,44 +33,42 @@
 				<MenuItem Header="About" Command="{Binding OpenAbout}"></MenuItem>
 			</MenuItem>
 		</Menu>
-		<StackPanel Grid.Row="1" Spacing="5">
-			<WrapPanel>
-				<Label>Model:</Label>
-				<ComboBox x:Name="ModelsComboBox" SelectedIndex="0" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
-				          AutoScrollToSelectedItem="True">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding }" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<Label Margin="10, 0, 0,0">Token:</Label>
-				<TextBox HorizontalAlignment="Stretch" x:Name="TokenTextBox"
-				         Text="{Binding AccessToken}" />
-			</WrapPanel>
-			<ListBox Name="MessageListBox" Items="{Binding MessageModels}">
-				<ListBox.ItemTemplate>
+		<WrapPanel Grid.Row="1">
+			<Label>Model:</Label>
+			<ComboBox x:Name="ModelsComboBox" SelectedIndex="0" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
+			          AutoScrollToSelectedItem="True">
+				<ComboBox.ItemTemplate>
 					<DataTemplate>
-
-						<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
-							<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
-
-
-								<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
-
-								<TextBox Grid.Row="1" IsReadOnly="True" Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
-								         Text="{Binding Message}"
-								         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
-
-							</Grid>
-						</Border>
-
+						<TextBlock Text="{Binding }" />
 					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</StackPanel>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<Label Margin="10, 0, 0,0">Token:</Label>
+			<TextBox HorizontalAlignment="Stretch" x:Name="TokenTextBox"
+			         Text="{Binding AccessToken}" />
+		</WrapPanel>
+		<ListBox Grid.Row="2" Name="MessageListBox" Items="{Binding MessageModels}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
 
-		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="2">
+					<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
+						<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
+
+
+							<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
+
+							<TextBox Classes.Bot="{Binding Bot}" Classes.User = "{Binding User}" Grid.Row="1" IsReadOnly="True" Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
+							         Text="{Binding Message}"
+							         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+
+						</Grid>
+					</Border>
+
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="3">
 			<TextBox Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
 			<Button Grid.Column="1" Margin="5,0,0,0" Command="{Binding SendMessage}">></Button>
 		</Grid>

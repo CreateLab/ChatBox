@@ -71,20 +71,24 @@ public class MainWindowViewModel : ViewModelBase
 
 	public async Task SendMessage()
 	{
-		var message = new MessageModel
+		if (string.IsNullOrWhiteSpace(SendedMessage) || string.IsNullOrEmpty(SendedMessage))
 		{
-			Message = SendedMessage,
-			Username = "User"
-		};
+			return;
+		}
+
+		var message = new MessageModel(SendedMessage, "User", false);
 
 		MessageModels.Add(message);
-		var sendMessage = await SendMessage(SendedMessage);
 
-		var resultModel = new MessageModel
-		{
-			Message = sendMessage,
-			Username = "Bot"
-		};
+		var sendedMessage = SendedMessage;
+		SendedMessage = string.Empty;
+
+		var sendMessage = await SendMessage(sendedMessage);
+		/*var sendMessage = "Bot says:"
+						+ Guid.NewGuid()
+							.ToString();*/
+
+		var resultModel = new MessageModel(sendMessage, "Bot", true);
 
 		MessageModels.Add(resultModel);
 		_trigger?.Invoke(MessageModels.Count);
