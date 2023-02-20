@@ -83,10 +83,10 @@ public class MainWindowViewModel : ViewModelBase
 		var sendedMessage = SendedMessage;
 		SendedMessage = string.Empty;
 
-		var sendMessage = await SendMessage(sendedMessage);
-		/*var sendMessage = "Bot says:"
+		//var sendMessage = await SendMessage(sendedMessage);
+		var sendMessage = "Bot says:"
 						+ Guid.NewGuid()
-							.ToString();*/
+							.ToString();
 
 		var resultModel = new MessageModel(sendMessage, "Bot", true);
 

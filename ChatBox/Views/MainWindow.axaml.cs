@@ -12,7 +12,7 @@ namespace ChatBox.Views;
 
 public partial class MainWindow : Window
 {
-	private ListBox list;
+	private ScrollViewer scroll;
 
 	public MainWindow()
 	{
@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 
 	public void Sartup(Setting setting)
 	{
-		list = this.FindControl<ListBox>("MessageListBox");
+		scroll = this.FindControl<ScrollViewer>("Scroll");
 
 		var s = new Saver(this);
 		var vm = new MainWindowViewModel(setting, s);
@@ -33,7 +33,7 @@ public partial class MainWindow : Window
 	{
 		if (count > 0)
 		{
-			Dispatcher.UIThread.InvokeAsync(() => list.ScrollIntoView(count));
+			Dispatcher.UIThread.InvokeAsync(() => scroll.ScrollToEnd() );
 		}
 	}
 

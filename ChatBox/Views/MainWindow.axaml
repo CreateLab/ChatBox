@@ -47,27 +47,29 @@
 			<TextBox HorizontalAlignment="Stretch" x:Name="TokenTextBox"
 			         Text="{Binding AccessToken}" />
 		</WrapPanel>
-		<ListBox Grid.Row="2" Name="MessageListBox" Items="{Binding MessageModels}">
-			<ListBox.ItemTemplate>
-				<DataTemplate>
+		<ScrollViewer Name="Scroll" Grid.Row="2">
+			<ItemsRepeater Name="MessageListBox" Items="{Binding MessageModels}" Margin="5">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate>
 
-					<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
-						<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
+						<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
+							<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
 
 
-							<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
+								<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
 
-							<TextBox Classes.Bot="{Binding Bot}" Classes.User = "{Binding User}" Grid.Row="1" IsReadOnly="True" Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
-							         Text="{Binding Message}"
-							         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+								<TextBox Classes.Bot="{Binding Bot}" Classes.User="{Binding User}" Grid.Row="1" IsReadOnly="True"
+								         Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
+								         Text="{Binding Message}"
+								         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
 
-						</Grid>
-					</Border>
+							</Grid>
+						</Border>
 
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
 		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="3">
 			<TextBox Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
 			<Button Grid.Column="1" Margin="5,0,0,0" Command="{Binding SendMessage}">></Button>
