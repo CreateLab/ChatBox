@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
 using ChatBox.Models;
+using ChatBox.Services;
 using DynamicData.Binding;
 using MessageBox.Avalonia;
+using MessageBox.Avalonia.Exceptions;
 using Newtonsoft.Json;
 using ReactiveUI;
 
@@ -26,10 +32,13 @@ public class MainWindowViewModel : ViewModelBase
 
 	private string _accessToken;
 
-	public MainWindowViewModel(Setting setting)
+	private Saver _saver;
+
+	public MainWindowViewModel(Setting setting, Saver saver)
 	{
 		_selectedModel = setting.SelectedModel ?? "text-davinci-003";
 		_accessToken = setting.AccessToken;
+		_saver = saver;
 	}
 
 	public ObservableCollectionExtended<MessageModel> MessageModels { get; } = new();
@@ -112,8 +121,78 @@ public class MainWindowViewModel : ViewModelBase
 			MessageBoxManager.GetMessageBoxStandardWindow("Error", ex.Message);
 
 			//Console.WriteLine($"---> Could not deserialize the JSON: {ex.Message}");
-			return "обработка не удалась";
+			return "Trouble compute";
 		}
+	}
+
+	public void ReportBug()
+	{
+		var url = @"https://github.com/CreateLab/ChatBox/issues/new?assignees=&labels=bug&template=bug_report.md&title=";
+
+		OpenUrl(url);
+	}
+
+	public void OpenAbout()
+	{
+		var url = "https://github.com/CreateLab/ChatBox/blob/master/README.md";
+
+		OpenUrl(url);
+	}
+
+	private static void OpenUrl(string url)
+	{
+		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+		{
+			//https://stackoverflow.com/a/2796367/241446
+			using var proc = new Process
+			{
+				StartInfo =
+				{
+					UseShellExecute = true,
+					FileName = url
+				}
+			};
+
+			proc.Start();
+
+			return;
+		}
+
+		if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+		{
+			Process.Start("x-www-browser", url);
+
+			return;
+		}
+
+		if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) throw new InvalidUrlException("invalid url: " + url);
+
+		Process.Start("open", url);
+	}
+
+	public void Exit()
+	{
+		SaveSettings();
+		Environment.Exit(0);
+	}
+
+	public void SaveSettings()
+	{
+		var setting = new Setting
+		{
+			AccessToken = AccessToken,
+			SelectedModel = SelectedModel
+		};
+
+		_saver.SaveSettings(setting);
+	}
+
+	public Task SaveChat()
+	{
+		var messageModels = MessageModels.ToList();
+		var dialog = JsonConvert.SerializeObject(messageModels);
+
+		return _saver.Save(dialog);
 	}
 
 	private static string GuessCommand(string raw) =>

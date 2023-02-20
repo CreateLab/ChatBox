@@ -6,7 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChatBox.Views.MainWindow"
         Icon="/Assets/logo.ico"
-        Title="ChatBox">
+        Title="ChatBox"
+        Closing="Window_OnClosing">
 	<Window.KeyBindings>
 		<KeyBinding Gesture="Enter" Command="{Binding SendMessage}" />
 	</Window.KeyBindings>
@@ -19,17 +20,17 @@
 		<Menu>
 			<MenuItem Header="File">
 				<MenuItem Header="Export">
-					<MenuItem Header="Export Dialog"></MenuItem>
+					<MenuItem Header="Export Dialog" Command="{Binding SaveChat}"></MenuItem>
 				</MenuItem>
 				<Separator></Separator>
 				<MenuItem Header="Settings"></MenuItem>
 				<Separator></Separator>
-				<MenuItem Header="Exit">
+				<MenuItem Header="Exit" Command="{Binding Exit}">
 				</MenuItem>
 			</MenuItem>
 			<MenuItem Header="Help">
-				<MenuItem Header="Report a bug"></MenuItem>
-				<MenuItem Header="About"></MenuItem>
+				<MenuItem Header="Report a bug" Command="{Binding ReportBug}"></MenuItem>
+				<MenuItem Header="About" Command="{Binding OpenAbout}"></MenuItem>
 			</MenuItem>
 		</Menu>
 		<StackPanel Grid.Row="1" Spacing="5">

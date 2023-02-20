@@ -1,7 +1,10 @@
+using System;
+using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Threading;
 using ChatBox.Models;
+using ChatBox.Services;
 using ChatBox.ViewModels;
 using ReactiveUI;
 
@@ -20,7 +23,8 @@ public partial class MainWindow : Window
 	{
 		list = this.FindControl<ListBox>("MessageListBox");
 
-		var vm = new MainWindowViewModel(setting);
+		var s = new Saver(this);
+		var vm = new MainWindowViewModel(setting, s);
 		vm.SetTrigger(ScrollToTop);
 		DataContext = vm;
 	}
@@ -31,5 +35,11 @@ public partial class MainWindow : Window
 		{
 			Dispatcher.UIThread.InvokeAsync(() => list.ScrollIntoView(count));
 		}
+	}
+
+	private void Window_OnClosing(object? sender, CancelEventArgs e)
+	{
+		var vm = (MainWindowViewModel) DataContext;
+		vm.SaveSettings();
 	}
 }
