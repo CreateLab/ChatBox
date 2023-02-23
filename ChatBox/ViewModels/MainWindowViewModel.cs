@@ -39,6 +39,7 @@ public class MainWindowViewModel : ViewModelBase
 		_selectedModel = setting.SelectedModel ?? "text-davinci-003";
 		_accessToken = setting.AccessToken;
 		_saver = saver;
+		MessageModels.Add(null);
 	}
 
 	public ObservableCollectionExtended<MessageModel> MessageModels { get; } = new();
@@ -78,7 +79,7 @@ public class MainWindowViewModel : ViewModelBase
 
 		var message = new MessageModel(SendedMessage, "User", false);
 
-		MessageModels.Add(message);
+		MessageModels.Insert(MessageModels.Count-1,message);;
 
 		var sendedMessage = SendedMessage;
 		SendedMessage = string.Empty;
@@ -90,7 +91,7 @@ public class MainWindowViewModel : ViewModelBase
 
 		var resultModel = new MessageModel(sendMessage, "Bot", true);
 
-		MessageModels.Add(resultModel);
+		MessageModels.Insert(MessageModels.Count-1,resultModel);
 		_trigger?.Invoke(MessageModels.Count);
 	}
 
