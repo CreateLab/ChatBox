@@ -25,11 +25,6 @@
 		<Style Selector="TextBox">
 			<Setter Property="CornerRadius" Value="50"></Setter>
 			<Setter Property="Background" Value="#15000000"></Setter>
-		</Style>
-
-		<Style Selector="TextBox">
-			<Setter Property="CornerRadius" Value="50"></Setter>
-			<Setter Property="Background" Value="#15000000"></Setter>
 			<Setter Property="BorderBrush" Value="#00000000"></Setter>
 			<Setter Property="SelectionBrush" Value="#FF9E24"></Setter>
 		</Style>
@@ -121,7 +116,7 @@
 			<TextBox Classes="token" HorizontalAlignment="Stretch" x:Name="TokenTextBox"
 			         Text="{Binding AccessToken}" />
 		</WrapPanel>
-		<Border CornerRadius="10" Margin="5" Background="#15000000" Grid.Row="2" IsVisible="{Binding !IsChatStarted}">
+		<Border Name="PlaceHolder" CornerRadius="10" Margin="5" Background="#15000000" Grid.Row="2" IsVisible="{Binding !IsChatStarted}">
 			<Grid RowDefinitions="*,Auto,Auto,Auto,*">
 				<Image Grid.Row="1" Source="/Assets/kit.png" Width="250" />
 				<TextBlock Grid.Row="2" HorizontalAlignment="Center" FontWeight="Bold">Welcome to ChatBox</TextBlock>
@@ -133,11 +128,11 @@
 				<ItemsRepeater.ItemTemplate>
 					<DataTemplate>
 
-							<Grid Margin="5"   ColumnDefinitions="Auto,Auto" >
+							<Grid  Margin="5"   ColumnDefinitions="Auto,Auto" >
 								<Image VerticalAlignment="Top" IsVisible="{Binding Bot}" Source="/Assets/botkit.png"/>
 								<Image VerticalAlignment="Top" IsVisible="{Binding !Bot}" Source="/Assets/userkit.png"/>
 
-								<TextBox Width="{Binding $parent[ScrollViewer].Bounds.Width}" Grid.Column="1" Classes.user="{Binding !Bot}" Classes.bot="{Binding Bot}" Grid.Row="1"
+								<TextBox MaxWidth="{Binding #PromtBox.Bounds.Width}"  Grid.Column="1" Classes.user="{Binding !Bot}" Classes.bot="{Binding Bot}" Grid.Row="1"
 								         IsReadOnly="True"
 								         Padding="3"
 								         Margin="5" TextWrapping="Wrap"
@@ -149,7 +144,7 @@
 			</ItemsRepeater>
 		</ScrollViewer>
 		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="3">
-			<TextBox Classes="promt" Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
+			<TextBox Name="PromtBox" Classes="promt" Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
 			<Button Grid.Column="1" Background="#00000000" Margin="5,0,0,0" Command="{Binding SendMessage}">
 				<Image Source="/Assets/arrow.png"></Image>
 			</Button>
