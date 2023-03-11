@@ -80,6 +80,7 @@ public class MainWindowViewModel : ViewModelBase
 	public async Task SendMessage()
 	{
 		IsChatStarted = true;
+
 		if (string.IsNullOrWhiteSpace(SendedMessage) || string.IsNullOrEmpty(SendedMessage))
 		{
 			return;
@@ -87,20 +88,13 @@ public class MainWindowViewModel : ViewModelBase
 
 		var message = new MessageModel(SendedMessage, "User", false);
 
-		MessageModels.Add(message);;
+		MessageModels.Add(message);
+		;
 
 		var sendedMessage = SendedMessage;
 		SendedMessage = string.Empty;
 
-		//var sendMessage = await SendMessage(sendedMessage);
-
-		var sendMessage = @"""Bot says:
-			dsfsd
-f
-
-lol kek cheburek
-The Pulitzer Prize is an annual award given in recognition of outstanding achievements in American literature, musical composition and journalism. It was established in 1917 by Joseph Pulitzer, an American journalist who wanted to recognize excellence in the journalism, literature and music industry. Since its inception, the Pulitzer Prize has become one of the most prestigious awards in the world, with the winning pieces often being the basis for films, among other works. Each year, the awards committee reviews entries and picks winners for the various categories. These awards are typically announced in April.
-						""";
+		var sendMessage = await SendMessage(sendedMessage);
 
 		var resultModel = new MessageModel(sendMessage, "Bot", true);
 
