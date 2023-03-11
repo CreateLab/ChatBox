@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Threading;
 using ChatBox.Models;
@@ -21,6 +22,7 @@ public partial class MainWindow : Window
 
 	public void Sartup(Setting setting)
 	{
+
 		scroll = this.FindControl<ScrollViewer>("Scroll");
 
 		var s = new Saver(this);

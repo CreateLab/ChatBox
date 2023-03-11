@@ -6,6 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChatBox.Views.MainWindow"
         Icon="/Assets/logo.ico"
+        MinWidth="350"
+        MinHeight="400"
         Title="ChatBox"
         Closing="Window_OnClosing">
 	<Window.KeyBindings>
@@ -14,27 +16,99 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel />
 	</Design.DataContext>
+	<Window.Styles>
+		<Style Selector="Label">
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+			<Setter Property="Foreground" Value="#99000000"></Setter>
+			<Setter Property="Margin" Value="30,0,5,0"></Setter>
+		</Style>
+		<Style Selector="TextBox">
+			<Setter Property="CornerRadius" Value="50"></Setter>
+			<Setter Property="Background" Value="#15000000"></Setter>
+		</Style>
 
+		<Style Selector="TextBox">
+			<Setter Property="CornerRadius" Value="50"></Setter>
+			<Setter Property="Background" Value="#15000000"></Setter>
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+			<Setter Property="SelectionBrush" Value="#FF9E24"></Setter>
+		</Style>
+		<Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="#FF9E24"></Setter>
+		</Style>
+
+		<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="#FF9E24"></Setter>
+		</Style>
+		<Style Selector="TextBox.promt">
+			<Setter Property="CornerRadius" Value="5"></Setter>
+			<Setter Property="Background" Value="#15000000"></Setter>
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+			<Setter Property="SelectionBrush" Value="#FF9E24"></Setter>
+			<Setter Property="CaretBrush" Value="#FF9E24"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.bot">
+			<Setter Property="CornerRadius" Value="5"></Setter>
+			<Setter Property="Background" Value="#15000000"></Setter>
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+			<Setter Property="SelectionBrush" Value="#FF9E24"></Setter>
+			<Setter Property="CaretBrush" Value="#FF9E24"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.user">
+			<Setter Property="CornerRadius" Value="5"></Setter>
+			<Setter Property="Background" Value="White"></Setter>
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+			<Setter Property="SelectionBrush" Value="#FF9E24"></Setter>
+			<Setter Property="CaretBrush" Value="#FF9E24"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.promt:focus /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.promt:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="#00000000"></Setter>
+		</Style>
+		<Style Selector="ComboBox">
+			<Setter Property="BorderThickness" Value="0"></Setter>
+			<Setter Property="CornerRadius" Value="50"></Setter>
+			<Setter Property="Background" Value="#15000000"></Setter>
+		</Style>
+		<Style Selector="MenuItem">
+			<Setter Property="Margin" Value="1"></Setter>
+			<Setter Property="CornerRadius" Value="5"></Setter>
+		</Style>
+		<Style Selector="ComboBoxItem">
+			<Setter Property="Margin" Value="1"></Setter>
+			<Setter Property="CornerRadius" Value="5"></Setter>
+		</Style>
+		<Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
+			<Setter Property="Background" Value="#FF9E24" />
+		</Style>
+	</Window.Styles>
 
 	<Grid Margin="5" RowDefinitions="Auto,Auto, *,Auto">
-		<Menu>
-			<MenuItem Header="File">
-				<MenuItem Header="Export">
-					<MenuItem Header="Export Dialog" Command="{Binding SaveChat}"></MenuItem>
+		<WrapPanel Orientation="Horizontal">
+			<Menu>
+				<MenuItem Header="File">
+					<MenuItem Header="Export">
+						<MenuItem Header="Export Dialog" Command="{Binding SaveChat}"></MenuItem>
+					</MenuItem>
+					<Separator></Separator>
+					<MenuItem Header="Settings"></MenuItem>
+					<Separator></Separator>
+					<MenuItem Header="Exit" Command="{Binding Exit}">
+					</MenuItem>
 				</MenuItem>
-				<Separator></Separator>
-				<MenuItem Header="Settings"></MenuItem>
-				<Separator></Separator>
-				<MenuItem Header="Exit" Command="{Binding Exit}">
+				<MenuItem Header="Help">
+					<MenuItem Header="Report a bug" Command="{Binding ReportBug}"></MenuItem>
+					<MenuItem Header="About" Command="{Binding OpenAbout}"></MenuItem>
 				</MenuItem>
-			</MenuItem>
-			<MenuItem Header="Help">
-				<MenuItem Header="Report a bug" Command="{Binding ReportBug}"></MenuItem>
-				<MenuItem Header="About" Command="{Binding OpenAbout}"></MenuItem>
-			</MenuItem>
-		</Menu>
-		<WrapPanel Grid.Row="1">
-			<Label>Model:</Label>
+			</Menu>
+
+			<Label>Model</Label>
 			<ComboBox x:Name="ModelsComboBox" SelectedIndex="0" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
 			          AutoScrollToSelectedItem="True">
 				<ComboBox.ItemTemplate>
@@ -43,36 +117,42 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<Label Margin="10, 0, 0,0">Token:</Label>
-			<TextBox HorizontalAlignment="Stretch" x:Name="TokenTextBox"
+			<Label Margin="10, 0, 0,0">Token</Label>
+			<TextBox Classes="token" HorizontalAlignment="Stretch" x:Name="TokenTextBox"
 			         Text="{Binding AccessToken}" />
 		</WrapPanel>
-		<ScrollViewer Name="Scroll" Grid.Row="2">
+		<Border CornerRadius="10" Margin="5" Background="#15000000" Grid.Row="2" IsVisible="{Binding !IsChatStarted}">
+			<Grid RowDefinitions="*,Auto,Auto,Auto,*">
+				<Image Grid.Row="1" Source="/Assets/kit.png" Width="250" />
+				<TextBlock Grid.Row="2" HorizontalAlignment="Center" FontWeight="Bold">Welcome to ChatBox</TextBlock>
+				<TextBlock Grid.Row="3" HorizontalAlignment="Center">Input your first promt</TextBlock>
+			</Grid>
+		</Border>
+		<ScrollViewer Margin="5" Background="#15000000" Name="Scroll" HorizontalScrollBarVisibility="Disabled" Grid.Row="2" IsVisible="{Binding IsChatStarted}">
 			<ItemsRepeater Name="MessageListBox" Items="{Binding MessageModels}" Margin="5">
 				<ItemsRepeater.ItemTemplate>
 					<DataTemplate>
 
-						<Border BorderBrush="Black" Width="{Binding $parent[ListBox].Bounds.Width}">
-							<Grid Margin="5" RowDefinitions="Auto,Auto, Auto">
+							<Grid Margin="5"   ColumnDefinitions="Auto,Auto" >
+								<Image VerticalAlignment="Top" IsVisible="{Binding Bot}" Source="/Assets/botkit.png"/>
+								<Image VerticalAlignment="Top" IsVisible="{Binding !Bot}" Source="/Assets/userkit.png"/>
 
-
-								<TextBlock Text="{Binding Username}" FontWeight="Bold" Margin="5" />
-
-								<TextBox Classes.Bot="{Binding Bot}" Classes.User="{Binding User}" Grid.Row="1" IsReadOnly="True"
-								         Background="#99B0E0E6" Margin="5" TextWrapping="Wrap"
+								<TextBox Width="{Binding $parent[ScrollViewer].Bounds.Width}" Grid.Column="1" Classes.user="{Binding !Bot}" Classes.bot="{Binding Bot}" Grid.Row="1"
+								         IsReadOnly="True"
+								         Padding="3"
+								         Margin="5" TextWrapping="Wrap"
 								         Text="{Binding Message}"
 								         ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
-
 							</Grid>
-						</Border>
-
 					</DataTemplate>
 				</ItemsRepeater.ItemTemplate>
 			</ItemsRepeater>
 		</ScrollViewer>
 		<Grid Margin="5" ColumnDefinitions="*, Auto" Grid.Row="3">
-			<TextBox Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
-			<Button Grid.Column="1" Margin="5,0,0,0" Command="{Binding SendMessage}">></Button>
+			<TextBox Classes="promt" Watermark="Input promt" MaxLength="1000" Text="{Binding SendedMessage}" />
+			<Button Grid.Column="1" Background="#00000000" Margin="5,0,0,0" Command="{Binding SendMessage}">
+				<Image Source="/Assets/arrow.png"></Image>
+			</Button>
 		</Grid>
 	</Grid>
 

@@ -34,6 +34,8 @@ public class MainWindowViewModel : ViewModelBase
 
 	private Saver _saver;
 
+	private bool _isChatStarted;
+
 	public MainWindowViewModel(Setting setting, Saver saver)
 	{
 		_selectedModel = setting.SelectedModel ?? "text-davinci-003";
@@ -69,8 +71,15 @@ public class MainWindowViewModel : ViewModelBase
 		set => this.RaiseAndSetIfChanged(ref _accessToken, value);
 	}
 
+	public bool IsChatStarted
+	{
+		get => _isChatStarted;
+		set => this.RaiseAndSetIfChanged(ref _isChatStarted, value);
+	}
+
 	public async Task SendMessage()
 	{
+		IsChatStarted = true;
 		if (string.IsNullOrWhiteSpace(SendedMessage) || string.IsNullOrEmpty(SendedMessage))
 		{
 			return;
@@ -78,15 +87,20 @@ public class MainWindowViewModel : ViewModelBase
 
 		var message = new MessageModel(SendedMessage, "User", false);
 
-		MessageModels.Add(message);
+		MessageModels.Add(message);;
 
 		var sendedMessage = SendedMessage;
 		SendedMessage = string.Empty;
 
 		//var sendMessage = await SendMessage(sendedMessage);
-		var sendMessage = "Bot says:"
-						+ Guid.NewGuid()
-							.ToString();
+
+		var sendMessage = @"""Bot says:
+			dsfsd
+f
+
+lol kek cheburek
+The Pulitzer Prize is an annual award given in recognition of outstanding achievements in American literature, musical composition and journalism. It was established in 1917 by Joseph Pulitzer, an American journalist who wanted to recognize excellence in the journalism, literature and music industry. Since its inception, the Pulitzer Prize has become one of the most prestigious awards in the world, with the winning pieces often being the basis for films, among other works. Each year, the awards committee reviews entries and picks winners for the various categories. These awards are typically announced in April.
+						""";
 
 		var resultModel = new MessageModel(sendMessage, "Bot", true);
 
