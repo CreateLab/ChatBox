@@ -2,11 +2,28 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
+		<RuntimeIdentifier>osx-x64</RuntimeIdentifier>
 		<Nullable>enable</Nullable>
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+		<OutputPath>bin\$(Configuration)\$(Platform)\ChatBox.app/Contents/MacOS</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<UseAppHost>true</UseAppHost>
+	</PropertyGroup>
+	<PropertyGroup>
+		<CFBundleName>ChatBox</CFBundleName> <!-- Also defines .app file name -->
+		<CFBundleDisplayName>ChatBox</CFBundleDisplayName>
+		<CFBundleIdentifier>com.example</CFBundleIdentifier>
+		<CFBundleVersion>1.0.0</CFBundleVersion>
+		<CFBundleShortVersionString>1</CFBundleShortVersionString>
+		<CFBundlePackageType>APPL</CFBundlePackageType>
+		<CFBundleSignature>com.Larymar.ChatBox</CFBundleSignature>
+		<CFBundleExecutable>ChatBox</CFBundleExecutable>
+		<CFBundleIconFile>logo.ico</CFBundleIconFile> <!-- Will be copied from output directory -->
+		<NSPrincipalClass>NSApplication</NSPrincipalClass>
+		<NSHighResolutionCapable>true</NSHighResolutionCapable>
 	</PropertyGroup>
 	<ItemGroup>
 		<Folder Include="Models\" />
@@ -21,6 +38,7 @@
 		<TrimmableAssembly Include="Avalonia.Themes.Default" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Dotnet.Bundle" Version="*" />
 		<PackageReference Include="Avalonia" Version="0.10.18" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
