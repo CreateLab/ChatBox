@@ -104,7 +104,7 @@
 			</Menu>
 
 			<Label>Model</Label>
-			<ComboBox x:Name="ModelsComboBox" SelectedIndex="0" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
+			<ComboBox x:Name="ModelsComboBox" SelectedIndex="2" Items="{Binding Models}" SelectedItem="{Binding SelectedModel}"
 			          AutoScrollToSelectedItem="True">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -132,7 +132,9 @@
 								<Image VerticalAlignment="Top" IsVisible="{Binding Bot}" Source="/Assets/botkit.png"/>
 								<Image VerticalAlignment="Top" IsVisible="{Binding !Bot}" Source="/Assets/userkit.png"/>
 
-								<TextBox MaxWidth="{Binding #PromtBox.Bounds.Width}"  Grid.Column="1" Classes.user="{Binding !Bot}" Classes.bot="{Binding Bot}" Grid.Row="1"
+								<TextBox MaxWidth="{Binding #PromtBox.Bounds.Width}"
+								         Grid.Column="1" Classes.user="{Binding !Bot}"
+								         Classes.bot="{Binding Bot}" Grid.Row="1"
 								         IsReadOnly="True"
 								         Padding="3"
 								         Margin="5" TextWrapping="Wrap"

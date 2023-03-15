@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
@@ -22,6 +23,7 @@ public partial class MainWindow : Window
 
 	public void Sartup(Setting setting)
 	{
+
 
 		scroll = this.FindControl<ScrollViewer>("Scroll");
 

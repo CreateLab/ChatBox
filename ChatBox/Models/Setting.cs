@@ -2,6 +2,6 @@
 
 public class Setting
 {
-	public string AccessToken { get; set; }
-	public string SelectedModel { get; set; }
+	public string? AccessToken { get; set; }
+	public string? SelectedModel { get; set; }
 }

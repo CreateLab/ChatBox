@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,7 +38,7 @@ public class MainWindowViewModel : ViewModelBase
 
 	public MainWindowViewModel(Setting setting, Saver saver)
 	{
-		_selectedModel = setting.SelectedModel ?? "text-davinci-003";
+		_selectedModel = setting.SelectedModel ?? "curie";
 		_accessToken = setting.AccessToken;
 		_saver = saver;
 	}
@@ -54,9 +54,10 @@ public class MainWindowViewModel : ViewModelBase
 	public List<string> Models =>
 		new()
 		{
-			"text-davinci-003",
-			"text-davinci-002",
-			"code-davinci-002"
+			"babbage",
+			"curie",
+			"ada",
+			"davinci",
 		};
 
 	public string SelectedModel
